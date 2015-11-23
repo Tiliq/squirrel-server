@@ -12,12 +12,6 @@ const platforms	= ['darwin', 'win32'];
 
 let latest, auth;
 
-process.env.GITHUB_TOKEN = '247e70ee4356e6316a822e7cb009cd6901acc56b';
-process.env.GITHUB_REPO = 'Tiliq/Desktop';
-process.env.DARWIN_FILE = 'Tiliq-darwin-x64.zip';
-process.env.WIN32_FILE = 'Tiliq-win32-{{arch}}.zip';
-process.env.WEBHOOK_FETCH_TIMEOUT = "5";
-
 if (process.env.GITHUB_TOKEN) {
 	auth = process.env.GITHUB_TOKEN + ':';
 }
