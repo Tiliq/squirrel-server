@@ -1,0 +1,33 @@
+{
+  "name": "squirrel-server",
+  "version": "1.0.0",
+  "description": "An update server for Squirrel (Squirrel.Mac / Squirrel.Windows) write in Node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tiliq/squirrel-server.git"
+  },
+  "keywords": [
+    "squirrel",
+    "squirrel.mac",
+    "squirrel.windows",
+    "electron",
+    "updates"
+  ],
+  "author": "Kevin J. Martin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Tiliq/squirrel-server/issues"
+  },
+  "homepage": "https://github.com/Tiliq/squirrel-server#readme",
+  "dependencies": {
+    "koa": "^1.1.2",
+    "koa-buddy": "^0.1.0",
+    "koa-router": "^5.2.3",
+    "semver": "^5.1.0"
+  }
+}

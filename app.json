@@ -1,0 +1,32 @@
+{
+	"name": "squirrel-server",
+	"description": "An update server for Squirrel (Squirrel.Mac / Squirrel.Windows) write in Node.js",
+	"website": "https://tiliq.com",
+	"repository": "https://github.com/Tiliq/squirrel-server",
+	"keywords": ["squirrel", "updates", "squirrel.mac", "squirrel.windows"],
+	"addons": [
+		"papertrail"
+	],
+	"env": {
+		"GITHUB_TOKEN": {
+			"description": "A personal access token (with `repo` read access only) to fetch download url of the latest release",
+			"value": "ABC123"
+		},
+		"GITHUB_REPO": {
+			"description": "The owner/repo combination where the releases lie",
+			"value": "atom/electron"
+		},
+		"WEBHOOK_FETCH_TIMEOUT": {
+			"description": "Minutes to wait to fetch latest data after a webhook (for releases where assets are uploaded after publishing). Put '0' if your release is published after uploading all of your assets",
+			"value": "5"
+		},
+		"DARWIN_FILE": {
+			"description": "The filename for Mac releases across releases",
+			"value": "App-darwin.zip"
+		},
+		"WIN32_FILE": {
+			"description": "The filename for Mac releases across releases",
+			"value": "App-win32-{{arch}}.zip"
+		}
+	}
+}
