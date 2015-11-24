@@ -10,6 +10,14 @@ const version	= require('./package.json').version;
 const userAgent = `Squirrel-Server (${version})`;
 const platforms	= ['darwin', 'win32'];
 
+const archSynonyms = {
+	x86: 'ia32',
+	x86_64: 'x64',
+	amd64: 'x64',
+	ia32: 'x86',
+	x64: 'amd64'
+};
+
 let latest, auth;
 
 if (process.env.GITHUB_TOKEN) {
@@ -40,11 +48,11 @@ function getLatestRelease() {
 	}).then(data => latest = data);
 }
 
-function getFilename(query) {
+function getFilename(query, value) {
 	let file = process.env[query.platform.toUpperCase() + '_FILE'];
 
 	for (let key in query) {
-		file = file.replace(`{{${key}}}`, encodeURIComponent(query[key]));
+		file = file.replace(`{{${key}}}`, value(query[key]));
 	}
 
 	return file;
@@ -61,16 +69,23 @@ function getAsset(filename) {
 	}
 }
 
-function getAssetUrl(query) {
-	const filename	= getFilename(query);
-	const asset		= getAsset(filename);
+function getAssetByArch(filename, arch) {
+	if (!arch) {
+		return getAsset(filename);
+	}
 
+	let asset = getAsset(`${arch}-${filename}`);
+
+	if (!asset) {
+		arch	= archSynonyms[arch];
+		asset	= getAsset(`${arch}-${filename}`);
+	}
+
+	return asset || getAsset(filename);
+}
+
+function getAssetUrl(asset) {
 	return new Promise((resolve, reject) => {
-		if (!asset) {
-			const error = new Error(`Asset "${filename}" not found`);
-			return reject(error);
-		}
-
 		const options = {
 			method: 'HEAD',
 			hostname: asset.hostname,
@@ -102,9 +117,17 @@ router.get('/latest', function *getLatestRelease() {
 		return;
 	}
 
+	const filename	= getFilename(this.query);
+	const asset		= getAsset(filename);
+
+	if (!asset) {
+		this.status = 204;
+		return;
+	}
+
 	try {
 		this.body = {
-			url: yield getAssetUrl(this.query),
+			url: yield getAssetUrl(asset),
 			link: latest.html_url,
 			name: latest.name,
 			notes: latest.body,
@@ -116,14 +139,33 @@ router.get('/latest', function *getLatestRelease() {
 	}
 });
 
+router.get('/latest/:filename', function *getReleasesFile() {
+	let asset = getAssetByArch(this.params.filename, this.query.arch);
+
+	if (!asset) {
+		this.status = 404;
+		return;
+	}
+
+	const assetUrl = yield getAssetUrl(asset);
+
+	this.redirect(assetUrl);
+});
+
 router.post('/webhook', () => {
+	this.status = 200;
+
 	if (this.headers['x-github-event'] !== 'ReleaseEvent') {
 		return;
 	}
 
-	// Latest have assets if published before they are uploaded
-	// So, let's wait 5 minutes.
-	setTimeout(getLatestRelease, process.env.WEBHOOK_FETCH_TIMEOUT * 1000);
+	if (process.env.WEBHOOK_FETCH_TIMEOUT <= 0) {
+		latest = this.request.body.release;
+	} else {
+		// The release may not have assets if it's published before they are
+		// upload, so let's wait WEBHOOK_FETCH_TIMEOUT minutes.
+		setTimeout(getLatestRelease, process.env.WEBHOOK_FETCH_TIMEOUT * 1000);
+	}
 });
 
 app.use(body());
