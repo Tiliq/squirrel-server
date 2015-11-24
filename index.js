@@ -49,7 +49,7 @@ function getLatestRelease() {
 }
 
 function getFilename(query, value) {
-	let file = process.env[query.platform.toUpperCase() + '_FILE'];
+	let file = process.env.DARWIN_FILE;
 
 	for (let key in query) {
 		file = file.replace(`{{${key}}}`, value(query[key]));
@@ -104,6 +104,7 @@ function getAssetUrl(asset) {
 	});
 }
 
+// Darwin releases
 router.get('/latest', function *getLatestRelease() {
 	if (!latest || !this.query.version) {
 		// wait for next request
@@ -139,6 +140,7 @@ router.get('/latest', function *getLatestRelease() {
 	}
 });
 
+// Win32 releases
 router.get('/latest/:filename', function *getReleasesFile() {
 	let asset = getAssetByArch(this.params.filename, this.query.arch);
 
@@ -152,6 +154,7 @@ router.get('/latest/:filename', function *getReleasesFile() {
 	this.redirect(assetUrl);
 });
 
+// Update to the latest version
 router.post('/webhook', () => {
 	this.status = 200;
 

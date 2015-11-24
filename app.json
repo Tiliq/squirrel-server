@@ -22,11 +22,7 @@
 		},
 		"DARWIN_FILE": {
 			"description": "The filename for Mac releases across releases",
-			"value": "App-darwin.zip"
-		},
-		"WIN32_FILE": {
-			"description": "The filename for Mac releases across releases",
-			"value": "App-win32-{{arch}}.zip"
+			"value": "App-darwin-x64.zip"
 		}
 	}
 }
