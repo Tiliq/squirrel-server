@@ -17,12 +17,32 @@
 			"value": "atom/electron"
 		},
 		"WEBHOOK_FETCH_TIMEOUT": {
-			"description": "Minutes to wait to fetch latest data after a webhook (for releases where assets are uploaded after publishing). Put '0' if your release is published after uploading all of your assets",
-			"value": "5"
+			"description": "Seconds to wait to fetch latest data after a webhook (for releases where assets are uploaded after publishing). Put '0' if your release is published only after uploading all of your assets",
+			"value": "0"
 		},
-		"DARWIN_FILE": {
-			"description": "The filename for Mac releases across releases",
+		"LINUX_DIRECT_FILE": {
+			"description": "The filename for Linux file across releases (usually a Zip)",
+			"value": "App-linux-{{arch}}.zip"
+		},
+		"DARWIN_DIRECT_FILE": {
+			"description": "The filename for Mac file across releases (usually a DMG or Zip)",
+			"value": "App-darwin-x64.dmg"
+		},
+		"DARWIN_ZIP_FILE": {
+			"description": "The filename for Mac Zip files across releases",
 			"value": "App-darwin-x64.zip"
-		}
+		},
+		"WIN32_RELEASES_FILE": {
+			"description": "The filename for the Windows RELEASES file across releases",
+			"value": "{{arch}}-RELEASES"
+		},
+		"WIN32_NUPKG_FILE": {
+			"description": "The filename for Windows NuPKG files across releases",
+			"value": "{{arch}}-{{filename}}"
+		},
+		"WIN32_DIRECT_FILE": {
+			"description": "The filename for Windows file across releases (usually an EXE, MSI or Zip)",
+			"value": "{{arch}}-AppSetup.exe"
+		},
 	}
 }

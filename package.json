@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "description": "An update server for Squirrel (Squirrel.Mac / Squirrel.Windows) write in Node.js",
   "main": "index.js",
+  "engines": {
+      "node": "5.6.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node --harmony --harmony_destructuring index.js"
   },
   "repository": {
     "type": "git",
@@ -16,6 +19,9 @@
     "squirrel.mac",
     "squirrel.windows",
     "electron",
+    "github",
+    "release",
+    "download",
     "updates"
   ],
   "author": "Kevin J. Martin",
