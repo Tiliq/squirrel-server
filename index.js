@@ -373,6 +373,8 @@ router.post('/webhook', function *handleWebhook() {
 	}
 });
 
+app.proxy = true;
+
 app.use(body());
 app.use(router.routes());
 app.use(router.allowedMethods());
