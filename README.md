@@ -147,7 +147,7 @@ Attempts to resolve the platform, architecture, and download url best suited for
 Platform (`platform`) and/or architecture (`arch`) may be passed through instead of attempting to "guess".
 
 Example Responses:
-```bash
+```json
 // wget http://example.com/api/resolve
 {
 	"platform": "darwin",
@@ -174,7 +174,7 @@ Example Responses:
 Returns a JSON array of release tag names
 
 Example Response:
-```bash
+```json
 {
 	"versions": ["v1.0.0", "v1.1.0", "v1.1.1"]
 }
@@ -187,7 +187,7 @@ Redirects to `/api/version/:version`, specifying `:version` using the latest pub
 Returns a JSON object with information on the current release and asset information for the release.
 
 Example Response:
-```bash
+```json
 {
 	"version": "v1.0.0",
 	"link": "http://github.com/Username/Repo/release/v1.0.0",
@@ -229,7 +229,7 @@ The Environment Variables pertaining to the **Auto-Updater** and **Direct Downlo
 
 ## FAQ
 
-### What if I two or more possible files for the same platform and architecture?
+### What if I have two or more possible files for the same platform and architecture?
 ###### Example 1: `Setup.exe` and `Setup.msi`
 ###### Example 2: `app-linux.deb` and `app-linux.rpm` and `app-linux.zip`
 Set your environment variable to include a custom `{{ext}}` replacement tag, then when you request the file using the appropriate `/download/:version/:platform/:arch` endpoint, specify `ext` as a query parameter.
