@@ -43,6 +43,6 @@
 		"WIN32_DIRECT_FILE": {
 			"description": "The filename for Windows file across releases (usually an EXE, MSI or Zip)",
 			"value": "{{arch}}-AppSetup.exe"
-		},
+		}
 	}
 }
