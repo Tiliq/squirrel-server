@@ -62,8 +62,8 @@ function getAllReleases(page, tmp) {
 }
 
 function processFilename(filename, vars) {
-	for (let [key, value] of vars) {
-		filename = filename.replace(`{{${key}}}`, value);
+	for (let key in vars) {
+		filename = filename.replace(`{{${key}}}`, vars[key]);
 	}
 
 	return filename;
