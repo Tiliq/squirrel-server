@@ -355,6 +355,8 @@ let timeout;
 router.post('/webhook', function *handleWebhook() {
 	this.status = 200;
 
+	console.log(this.headers);
+
 	if (this.headers['x-github-event'] !== 'ReleaseEvent') {
 		return;
 	}
