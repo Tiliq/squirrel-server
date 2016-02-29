@@ -164,7 +164,7 @@ router.param('arch', function *handleArch(arch, next) {
 	}
 });
 
-router.param('version', function *handleCurrentVersion(version, next) {
+router.param('version', function *handleVersion(version, next) {
 	// Must be a valid semver version
 	if (semver.valid(version)) {
 		this.version = version;
@@ -211,7 +211,7 @@ router.get('/update/darwin/x64/:currentVersion', function *handleDarwin() {
 
 // Handle Windows Auto-Updater
 // :filename will usually be RELEASES, *-delta.nupkg, or *-full.nupkg
-router.get('/update/win32/:arch/:currentVersion/:filename', function *handleWindows() {
+router.get('/update/win32/:arch/:version/:filename', function *handleWindows() {
 	let filename = this.params.filename;
 	let release;
 
@@ -235,7 +235,7 @@ router.get('/update/win32/:arch/:currentVersion/:filename', function *handleWind
 		release = getReleaseVersionFromAsset(filename);
 
 		if (!release) {
-			this.status = 204;
+			this.status = 404;
 
 			return;
 		}
