@@ -17,6 +17,21 @@ const regexps = {
 	linux: /linux|debian|ubuntu|fedora|centos|redhat/
 };
 
+const archTranslations = {
+	//x64: 'amd64',
+	//ia32: 'x86',
+	amd64: 'x64',
+	x86_64: 'x64',
+	x86: 'ia32',
+	i386: 'ia32',
+	i486: 'ia32',
+	i686: 'ia32'
+};
+
+function translateArch(arch) {
+	return archTranslations[arch];
+}
+
 let releases, auth;
 
 if (process.env.GITHUB_TOKEN) {
@@ -63,6 +78,10 @@ function getAllReleases(page, tmp) {
 
 function processFilename(filename, vars) {
 	for (let key in vars) {
+		if (key === 'arch') {
+			vars.arch = translateArch(vars.arch) || vars.arch;
+		}
+
 		filename = filename.replace(`{{${key}}}`, vars[key]);
 	}
 
@@ -135,6 +154,8 @@ router.param('platform', function *handlePlatform(platform, next) {
 });
 
 router.param('arch', function *handleArch(arch, next) {
+	arch = translateArch(arch) || arch;
+
 	if (~['ia32', 'x64'].indexOf(arch)) {
 		this.arch = arch;
 		yield next;
